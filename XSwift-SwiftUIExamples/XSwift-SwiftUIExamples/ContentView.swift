@@ -16,7 +16,12 @@ struct ContentView: View {
                                value: Navigation.shutterCamera)
             }
             .navigationTitle("SwiftUI Tools")
-            .navigationDestination(for: Navigation.self) { $0.view }
+            .navigationDestination(for: Navigation.self) { navigation in
+                switch navigation {
+                case .shutterCamera:
+                    Navigation.shutterCamera.view
+                }
+            }
         }
 
     }

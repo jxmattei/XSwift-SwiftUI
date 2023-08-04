@@ -24,14 +24,17 @@ struct CaptureConfirmationView: View {
                     .buttonStyle(.borderedProminent)
                     .shadow(radius: 5)
             }
+            .padding()
             .tint(.white)
             .foregroundColor(.black)
-            .padding()
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background {
             Image(uiImage: image)
                 .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .ignoresSafeArea()
         }
         .background(Color.black)

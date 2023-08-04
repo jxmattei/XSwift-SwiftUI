@@ -24,11 +24,12 @@ public struct ShutterCameraView: View {
                 cameraCapture.isCapturing = true
             }
             .buttonStyle(ShutterButtonStyle())
+            .disabled(cameraCapture.isCapturing || fullscreenAction == .confirmCapture)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onChange(of: cameraCapture.capturedImage) { newValue in
-            if let newValue {
-                fullscreenAction = .confirmCapture(image: newValue)
+            if newValue != nil {
+                fullscreenAction = .confirmCapture
             }
         }
         .background {
@@ -37,10 +38,12 @@ public struct ShutterCameraView: View {
         }
         .fullScreenCover(item: $fullscreenAction) { item in
             switch item {
-            case let .confirmCapture(image):
-                CaptureConfirmationView(image: image) { image in
-                    fullscreenAction = nil
-                    self.onCaptureConfirm(image)
+            case .confirmCapture:
+                if let image = cameraCapture.capturedImage {
+                    CaptureConfirmationView(image: image) { image in
+                        fullscreenAction = nil
+                        self.onCaptureConfirm(image)
+                    }
                 }
             }
         }
@@ -58,7 +61,7 @@ public struct ShutterCameraView: View {
             case .confirmCapture: return "confirmCapture"
             }
         }
-        case confirmCapture(image: UIImage)
+        case confirmCapture
     }
 }
 
