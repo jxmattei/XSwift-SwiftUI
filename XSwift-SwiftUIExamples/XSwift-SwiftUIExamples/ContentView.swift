@@ -23,6 +23,7 @@ struct ContentView: View {
 
     enum Navigation: Hashable {
         case shutterCamera
+        
         @ViewBuilder
         var view: some View {
             switch self {
